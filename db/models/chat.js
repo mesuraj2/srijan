@@ -1,26 +1,39 @@
-const mongoose =require('mongoose')
+const mongoose = require("mongoose");
 
-const Chatmodel=mongoose.Schema({
-    chatName:{
-        type:String,
-        required:true,
-        trim:true
+const Chatmodel = mongoose.Schema(
+  {
+    chatName: {
+      type: String,
+      required: true,
+      trim: true,
     },
     isGroupChat: { type: Boolean, default: false },
-    users:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'user'
-        }
+    isOfferChat: { type: Boolean, default: false },
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
     ],
-    latestMessage:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Message'
+    latestMessage: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
     },
-},{
-    timestamps:true,
-})
+    Location: {
+      type: {
+        type: String,
+      },
+      coordinates: [Number],
+    },
+    offerid:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "offer",
+    }
+  },
+  {
+    timestamps: true,
+  }
+);
 
-
-module.exports=mongoose.model('chat',Chatmodel);
-
+Chatmodel.index({ Location: "2dsphere" });
+module.exports = mongoose.model("chat", Chatmodel);

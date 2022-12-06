@@ -3,6 +3,7 @@ const router=express.Router()
 const Chat =require('./models/chat')
 const User =require('./models/users')
 const message =require('./models/Message')
+const offer =require('./models/offer')
 const fetchuser=require('./fetchuser')
 
 
@@ -58,6 +59,36 @@ router.post('/',fetchuser,async(req,res)=>{
     // })
     // console.log(result)
     // res.send(result._id)
+})
+
+
+//@description     Create New offer Chat
+router.post('/offerchat',fetchuser,async(req,res)=>{
+  const {chatName,offerid,coordinate}=req.body;
+  let location=JSON.parse(coordinate);
+  // console.log(chatName,offerid,location)
+  try {
+      const groupChat = await Chat.create({
+        chatName: chatName,
+        users: req.user.id,
+        isOfferChat: true,
+        isGroupChat:true,
+        Location:{
+          type: "Point",
+          coordinates: location
+        },
+        offerid:offerid
+      });
+      await offer.findByIdAndUpdate({_id:offerid},{chat_id:groupChat._id})
+      const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+        .populate("users", "-password")
+      //   .populate("groupAdmin", "-password");
+  
+      res.status(200).json(fullGroupChat);
+    } catch (error) {
+      res.status(400);
+      throw new Error(error.message);
+    }
 })
 
 
@@ -181,8 +212,13 @@ router.put('/groupremove',fetchuser, async (req,res)=>{
 router.put('/groupadd',fetchuser, async (req,res)=>{
     const { chatId, userId } = req.body;
 
-  // check if the requester is admin
 
+
+    // let check=await Chat.find({_id:chatId,users:{$elemMatch:{$eq:userId}}})
+    // if(check){
+    //   return res.send('user aleady exits');
+    // }
+  // check if the requester is admin
   const added = await Chat.findByIdAndUpdate(
     chatId,
     {
@@ -200,6 +236,38 @@ router.put('/groupadd',fetchuser, async (req,res)=>{
   } else {
     res.json(added);
   }
+})
+
+// @desc    Add user to Group / Leave
+router.put('/groupaddOffer',fetchuser, async (req,res)=>{
+  const { chatId, userId } = req.body;
+
+
+
+  let check=await Chat.find({_id:chatId,users:{$elemMatch:{$eq:req.user.id}}})
+  // console.log(req.user.id)
+  // console.log(check.length)
+  if(check.length==1){
+    return res.send({exits:true});
+  }
+// check if the requester is admin
+const added = await Chat.findByIdAndUpdate(
+  chatId,
+  {
+    $push: { users: req.user.id },
+  },
+  {
+    new: true,
+  }
+)
+  .populate("users", "-password")
+
+if (!added) {
+  res.status(404);
+  throw new Error("Chat Not Found");
+} else {
+  res.json(added);
+}
 })
 
 

@@ -4,6 +4,8 @@ const Connecttomongodb=require('./db')
 const cors=require('cors')
 const Chat=require('./chat')
 const Message=require('./message')
+const Offer=require('./offer')
+
 
 Connecttomongodb();
 const app = Express();
@@ -16,6 +18,8 @@ app.use(Express.json());
 app.use("/api/auth",User);
 app.use("/api/chat",Chat)
 app.use("/api/message",Message)
+app.use("/api/offer",Offer)
+
 
 const server = app.listen(
   PORT,
