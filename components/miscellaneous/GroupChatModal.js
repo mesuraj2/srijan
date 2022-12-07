@@ -18,6 +18,8 @@ import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
+import  secureLocalStorage  from  "react-secure-storage";
+
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,7 +58,7 @@ const GroupChatModal = ({ children }) => {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
       })
       let data=await res.json()
@@ -94,7 +96,7 @@ const GroupChatModal = ({ children }) => {
     try {
       const config = {
         headers: {
-          'auth-token':localStorage.getItem('token'),
+          'auth-token':secureLocalStorage.getItem('token'),
         },
       };
       const { data } = await axios.post(

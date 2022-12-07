@@ -8,11 +8,13 @@ import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
+import  secureLocalStorage  from  "react-secure-storage";
+import Router from "next/router";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState([]);
 
-  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  const { selectedChat, setSelectedChat, user, chats, setChats,Session } = ChatState();
 
   const toast = useToast();
 
@@ -22,7 +24,7 @@ const MyChats = ({ fetchAgain }) => {
       const res =await fetch("http://localhost:3001/api/chat/fetchChat", {
     method: 'GET', // or 'PUT'
     headers: {
-      'auth-token':localStorage.getItem('token')
+      'auth-token':secureLocalStorage.getItem('token')
     },
   })
   let data=await res.json()
@@ -41,9 +43,10 @@ const MyChats = ({ fetchAgain }) => {
   };
 
   useEffect(() => {
-    setLoggedUser(JSON.parse(localStorage.getItem('user')));
-    fetchChats();
-    // eslint-disable-next-line
+    setLoggedUser(JSON.parse(secureLocalStorage.getItem('user')));
+    if(secureLocalStorage.getItem('token')){
+      fetchChats();
+    }
   }, [fetchAgain]);
 
   return (
@@ -86,10 +89,10 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         h="100%"
         borderRadius="lg"
-        overflowY="hidden"
+        overflowY="scroll"
       >
         {chats ? (
-          <Stack overflowY="scroll">
+          <Stack >
             {chats && chats.map((chat) => (
               <Box
                 onClick={() => setSelectedChat(chat)}

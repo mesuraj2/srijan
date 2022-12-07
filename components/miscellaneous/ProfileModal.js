@@ -12,10 +12,19 @@ import {
   IconButton,
   Text,
   Image,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"; 
+import { useState,useEffect } from 'react';
+import  secureLocalStorage  from  "react-secure-storage";
 
-const ProfileModal = ({ user, children }) => {
+
+const ProfileModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [user, setuser] = useState([])
+  useEffect(() => {
+    if(secureLocalStorage.getItem('user')){
+     setuser(JSON.parse(secureLocalStorage.getItem('user')))
+    }
+   }, [])
 
   return (
     <>
@@ -27,16 +36,17 @@ const ProfileModal = ({ user, children }) => {
       <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent h="410px">
-          <ModalHeader
+          {/* <ModalHeader
             fontSize="40px"
             fontFamily="Work sans"
             d="flex"
             justifyContent="center"
           >
             {user.name}
-          </ModalHeader>
+          </ModalHeader> */}
+          suraj
           <ModalCloseButton />
-          <ModalBody
+          {/* <ModalBody
             d="flex"
             flexDir="column"
             alignItems="center"
@@ -54,7 +64,7 @@ const ProfileModal = ({ user, children }) => {
             >
               Email: {user.email}
             </Text>
-          </ModalBody>
+          </ModalBody> */}
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>

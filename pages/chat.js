@@ -6,12 +6,18 @@ import { Box } from '@chakra-ui/react';
 import SideDrawer from '../components/SideDrawer'
 import MyChats from '../components/MyChats'
 import Chatbox from '../components/Chatbox'
+import  secureLocalStorage  from  "react-secure-storage";
+
 
 function chat() {
-  const router = useRouter()
   const [fetchAgain, setFetchAgain] = useState(false);
-  const { user,setUser } =ChatState(); 
-
+  const { user,setUser,Session } =ChatState();
+  useEffect(() => {
+    if(!secureLocalStorage.getItem('token')){
+      Router.push('/Login')
+    }
+  }, [])
+  
   return (
     <div style={{ width: "100%" }}>
       {user && <SideDrawer />}

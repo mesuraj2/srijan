@@ -32,6 +32,7 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import { getSender } from "../config/ChatLogics";
 import UserListItem from "./userAvatar/UserListItem";
 import { ChatState } from "../Context/ChatProvider";
+import  secureLocalStorage  from  "react-secure-storage";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -52,10 +53,10 @@ function SideDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const history = useHistory();
 
-  const logoutHandler = () => {
-    localStorage.removeItem("token");
-    Router.push("/");
-  };
+  // const logoutHandler = () => {
+  //   secureLocalStorage.removeItem("token");
+  //   Router.push("/");
+  // };
 
   const handleSearch = async () => {
     if (!search) {
@@ -76,11 +77,11 @@ function SideDrawer() {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
       })
       let data=await res.json()
-      console.log(data)
+      // console.log(data)
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -104,7 +105,7 @@ function SideDrawer() {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
         body:JSON.stringify({UserId:userId}),
       })
@@ -149,51 +150,7 @@ function SideDrawer() {
         <Text fontSize="2xl" fontFamily="Work sans">
           Pool & Save
         </Text>
-        <div>
-          <Menu>
-            <MenuButton p={1}>
-              {/* <NotificationBadge
-                count={notification.length}
-                effect={Effect.SCALE}
-              /> */}
-              <div>{notification.length}</div>
-              <BellIcon fontSize="2xl" m={1} />
-            </MenuButton>
-            <MenuList pl={2}>
-              {!notification.length && "No New Messages"}
-              {notification.map((notif) => (
-                <MenuItem
-                  key={notif._id}
-                  onClick={() => {
-                    setSelectedChat(notif.chat);
-                    setNotification(notification.filter((n) => n !== notif));
-                  }}
-                >
-                  {notif.chat.isGroupChat
-                    ? `New Message in ${notif.chat.chatName}`
-                    : `New Message from ${getSender(user, notif.chat.users)}`}
-                </MenuItem>
-              ))}
-            </MenuList>
-          </Menu>
-          <Menu>
-            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
-              <Avatar
-                size="sm"
-                cursor="pointer"
-                name={user.name}
-                src={user.pic}
-              />
-            </MenuButton>
-            <MenuList>
-              <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
-              </ProfileModal>
-              <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-            </MenuList>
-          </Menu>
-        </div>
+        
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>

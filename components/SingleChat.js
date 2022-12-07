@@ -4,13 +4,15 @@ import { Box, Text } from "@chakra-ui/layout";
 // import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-import { useEffect, useState } from "react";
+import { useEffect,  useState,useRef } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 // import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
+import  secureLocalStorage  from  "react-secure-storage";
+
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
@@ -26,7 +28,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+  const messagesEndRef = useRef(null)
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+  
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -44,7 +55,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     try {
       const config = {
         headers: {
-        'auth-token':localStorage.getItem('token'),
+        'auth-token':secureLocalStorage.getItem('token'),
         },
       };
 
@@ -73,7 +84,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit("setup", localStorage.getItem('id'));
+    socket.emit("setup", secureLocalStorage.getItem('id'));
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
@@ -88,7 +99,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const config = {
           headers: {
             "Content-type": "application/json",
-            'auth-token':localStorage.getItem('token'),
+            'auth-token':secureLocalStorage.getItem('token'),
           },
         };
         setNewMessage("");
@@ -97,7 +108,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           method: 'POST', // or 'PUT'
           headers: {
             'Content-Type': 'application/json',
-            'auth-token':localStorage.getItem('token')
+            'auth-token':secureLocalStorage.getItem('token')
           },
           body:JSON.stringify({content:newMessage,chatId:selectedChat._id}),
         })
@@ -211,7 +222,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             w="100%"
             h="100%"
             borderRadius="lg"
-            overflowY="hidden"
+            overflowY="scroll"
           >
             {loading ? (
               <Spinner
@@ -223,12 +234,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               
-              <div className="messages">
-                <ScrollableChat messages={messages} />
-                {/* {messages.map((message)=>(
-                  <small>{message.content}</small>
-                ))} */}
-                
+              <div className="messages"  >
+                <ScrollableChat messages={messages}  />
+                <div ref={messagesEndRef} />
               </div>
             )}
 

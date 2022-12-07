@@ -3,9 +3,15 @@ import { useForm } from 'react-hook-form';
 import Router from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import  secureLocalStorage  from  "react-secure-storage";
+import { ChatState } from "../Context/ChatProvider";
 
 function about() {
   const {register,handleSubmit}=useForm()
+  const {
+    user,
+    setUser,
+  } = ChatState();
 
   const loginsubmitForm=async (value)=>{
     // console.log(value)
@@ -35,30 +41,39 @@ function about() {
           });
       }
       else{
-      // localStorage.setItem("token",data)
-      localStorage.setItem("token",data.authtoken);
-      localStorage.setItem("id",data.id);
+      secureLocalStorage.setItem("token",data.authtoken);
+      secureLocalStorage.setItem("id",data.id);
 
-      getdata();
-      // console.log(data)
-      Router.push('/')
-      }
-  }
-  const getdata=async ()=>{
       const res =await fetch('http://localhost:3001/api/auth/getuser', {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
       })
-      let data=await res.json()
-      localStorage.setItem("user", JSON.stringify(data))
+      let data2=await res.json()
+      secureLocalStorage.setItem("user", JSON.stringify(data2))
       // localStorage.setItem("name",data.name)
+      setUser(data2);
       // console.log(data)
-      // Router.push('/')
+      Router.push('/')
+      }
   }
-
+  // const getdata=async ()=>{
+  //     const res =await fetch('http://localhost:3001/api/auth/getuser', {
+  //       method: 'POST', // or 'PUT'
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'auth-token':secureLocalStorage.getItem('token')
+  //       },
+  //     })
+  //     let data=await res.json()
+  //     secureLocalStorage.setItem("user", JSON.stringify(data))
+  //     // localStorage.setItem("name",data.name)
+  //     setUser(data);
+  //     // console.log(data)
+  //     // Router.push('/')
+  // }
   useEffect(() => {
     if(localStorage.getItem('token')!=null){
       Router.push('/')

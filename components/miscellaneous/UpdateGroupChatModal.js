@@ -21,6 +21,7 @@ import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
+import  secureLocalStorage  from  "react-secure-storage";
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,7 +46,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
       })
       let data=await res.json()
@@ -73,7 +74,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
         body:JSON.stringify({
           chatId: selectedChat._id,
@@ -118,7 +119,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
         body:JSON.stringify({
               chatId: selectedChat._id,
@@ -166,7 +167,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':localStorage.getItem('token')
+          'auth-token':secureLocalStorage.getItem('token')
         },
         body:JSON.stringify({
               chatId: selectedChat._id,

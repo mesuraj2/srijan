@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Router, { useRouter } from 'next/router'
+import  secureLocalStorage  from  "react-secure-storage";
 
 const ChatContext = createContext();
 
@@ -9,6 +10,8 @@ const ChatProvider = ({ children }) => {
   const [user, setUser] = useState([]);
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState();
+  const [Alloffer, setAlloffer] = useState([])
+  const [Session, setSession] = useState()
 
 
   const getdata=async ()=>{
@@ -16,7 +19,7 @@ const ChatProvider = ({ children }) => {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
-        'auth-token':localStorage.getItem('token')
+        'auth-token':secureLocalStorage.getItem('token')
       },
     })
     let data=await res.json()
@@ -25,6 +28,7 @@ const ChatProvider = ({ children }) => {
     setUser(data);
     // Router.push('/')
 }
+
 
   useEffect(() => {
     // const userInfo = JSON.parse(localStorage.getItem("token"));
@@ -47,6 +51,8 @@ const ChatProvider = ({ children }) => {
         setNotification,
         chats,
         setChats,
+        Session,
+        setSession
       }}
     >
       {children}
@@ -57,5 +63,8 @@ const ChatProvider = ({ children }) => {
 export const ChatState = () => {
   return useContext(ChatContext);
 };
+
+
+
 
 export default ChatProvider;
