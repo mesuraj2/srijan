@@ -11,7 +11,7 @@ Connecttomongodb();
 const app = Express();
 
 const PORT = process.env.PORT || 3001;
-app.use(cors({origin:'http://localhost:3000'}))
+app.use(cors({origin:'https://srijan-mesuraj2.vercel.app/'}))
 
 app.use(Express.json());
 
@@ -29,7 +29,7 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://srijan-mesuraj2.vercel.app/",
     // credentials: true,
   },
 });
