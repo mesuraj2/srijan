@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react"; 
 import  secureLocalStorage  from  "react-secure-storage";
 
-export default function offerchat({Offerdetail}) {
+export default function Offerchat({Offerdetail}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter()
   const [chatid, setchatid] = useState()

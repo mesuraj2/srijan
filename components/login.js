@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import  secureLocalStorage  from  "react-secure-storage";
 import { ChatState } from "../Context/ChatProvider";
 
-function about() {
+export default function Login() {
   const {register,handleSubmit}=useForm()
   const {
     user,
@@ -106,7 +106,7 @@ function about() {
   )
 }
 
-export default about
+
 
 
 

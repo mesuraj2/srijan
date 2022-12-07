@@ -6,8 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-
-function about() {
+export default function About() {
   const {register,handleSubmit}=useForm()
   const submitForm=async (value)=>{
     console.log(value)
@@ -107,7 +106,7 @@ function about() {
     </>
   )
 }
-export default about
+
 
 
 

@@ -11,7 +11,7 @@ import { ChatState } from "../Context/ChatProvider";
 import  secureLocalStorage  from  "react-secure-storage";
 import Router from "next/router";
 
-const MyChats = ({ fetchAgain }) => {
+export default function MyChats ({ fetchAgain }){
   const [loggedUser, setLoggedUser] = useState([]);
 
   const { selectedChat, setSelectedChat, user, chats, setChats,Session } = ChatState();
@@ -128,4 +128,4 @@ const MyChats = ({ fetchAgain }) => {
   );
 };
 
-export default MyChats;
+

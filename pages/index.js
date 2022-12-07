@@ -12,7 +12,7 @@ import  secureLocalStorage  from  "react-secure-storage";
 import React from 'react'
 
 
-export default function index() {
+export default function Index() {
   const [Alloffer, setAlloffer] = useState([])
   const [Allchat, setAllchat] = useState([])
   const getoffernearyou=async ()=>{
@@ -49,6 +49,7 @@ export default function index() {
   
   return (
     <div>
+      <a href="/suraj.html">view pdf</a>
       <Offer  alloffer={Alloffer} allchat={Allchat}/>
     </div>
   )
