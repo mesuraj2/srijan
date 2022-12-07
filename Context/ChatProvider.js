@@ -14,31 +14,31 @@ const ChatProvider = ({ children }) => {
   const [Session, setSession] = useState()
 
 
-  const getdata=async ()=>{
-    const res =await fetch('http://localhost:3001/api/auth/getuser', {
-      method: 'POST', // or 'PUT'
-      headers: {
-        'Content-Type': 'application/json',
-        'auth-token':secureLocalStorage.getItem('token')
-      },
-    })
-    let data=await res.json()
-    // localStorage.setItem("name",data.name)
-    // console.log(data)
-    setUser(data);
-    // Router.push('/')
-}
+//   const getdata=async ()=>{
+//     const res =await fetch('http://localhost:3001/api/auth/getuser', {
+//       method: 'POST', // or 'PUT'
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'auth-token':secureLocalStorage.getItem('token')
+//       },
+//     })
+//     let data=await res.json()
+//     // localStorage.setItem("name",data.name)
+//     // console.log(data)
+//     setUser(data);
+//     // Router.push('/')
+// }
 
 
-  useEffect(() => {
-    // const userInfo = JSON.parse(localStorage.getItem("token"));
-    // // console.log(userInfo)
-    // setUser(userInfo);
+  // useEffect(() => {
+  //   // const userInfo = JSON.parse(localStorage.getItem("token"));
+  //   // // console.log(userInfo)
+  //   // setUser(userInfo);
     
-    getdata();
-    if (user==null) router.push("/Login");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  //   getdata();
+  //   if (user==null) router.push("/Login");
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [router]);
 
   return (
     <ChatContext.Provider
