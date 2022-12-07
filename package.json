@@ -5,7 +5,7 @@
   "scripts": {
     "server":"cd db && node index.js",
     "dev": "concurrently \"next dev\" \"npm run server\"",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
