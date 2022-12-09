@@ -20,7 +20,7 @@ export default function Login() {
 
       // e.preventDefault();
       // setmessage(null)
-      const res =await fetch('http://localhost:3001/api/auth/login', {
+      const res =await fetch('http://128.199.17.123/api/auth/login', {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',

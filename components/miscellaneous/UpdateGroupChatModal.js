@@ -42,7 +42,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
     try {
       setLoading(true);
-      const res =await fetch(`http://localhost:3001/api/auth/searchUser?search=${search}`, {
+      const res =await fetch(`http://128.199.17.123/api/auth/searchUser?search=${search}`, {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
     try {
       setRenameLoading(true);
-      const res =await fetch('http://localhost:3001/api/chat/rename', {
+      const res =await fetch('http://128.199.17.123/api/chat/rename', {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
     }
     try {
       setLoading(true);
-      const res =await fetch('http://localhost:3001/api/chat/groupadd', {
+      const res =await fetch('http://128.199.17.123/api/chat/groupadd', {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       // );
 
 
-      const res =await fetch('http://localhost:3001/api/chat/groupremove', {
+      const res =await fetch('http://128.199.17.123/api/chat/groupremove', {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',

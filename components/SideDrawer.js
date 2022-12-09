@@ -73,7 +73,7 @@ function SideDrawer() {
 
     try {
       setLoading(true);
-        const res =await fetch(`http://localhost:3001/api/auth/searchUser?search=${search}`, {
+        const res =await fetch(`http://128.199.17.123/api/auth/searchUser?search=${search}`, {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ function SideDrawer() {
 
     try {
       setLoadingChat(true);
-      const res =await fetch(`http://localhost:3001/api/chat`, {
+      const res =await fetch(`http://128.199.17.123/api/chat`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -142,15 +142,11 @@ function SideDrawer() {
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px={4}>
+            <Text  px={4}>
               Search User
             </Text>
           </Button>
-        </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Pool & Save
-        </Text>
-        
+        </Tooltip>        
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>

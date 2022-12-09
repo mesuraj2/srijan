@@ -21,7 +21,7 @@ export default function Index() {
       let longitude=position.coords.longitude
       // console.log(latitude,longitude)
     })
-      const res =await fetch(`http://localhost:3001/api/offer/offernearyou`, {
+      const res =await fetch(`http://128.199.17.123/api/offer/offernearyou`, {
     method: 'GET',
   })
   let Alloffer= await res.json()
@@ -34,22 +34,20 @@ export default function Index() {
       let longitude=position.coords.longitude
       // console.log(latitude,longitude)
     })
-      const res =await fetch(`http://localhost:3001/api/offer/topChatnearYou`, {
+      const res =await fetch(`http://128.199.17.123/api/offer/topChatnearYou`, {
     method: 'GET',
   })
   let allchat= await res.json()
-  console.log(allchat)
+  // console.log(allchat[0].users.length)
   setAllchat(allchat)
   }
   useEffect(() => {
     getoffernearyou()
     getallchatnearyou()
   }, [])
-  
-  
   return (
     <div>
-      <a href="/suraj.html">view pdf</a>
+      {/* <a href="/suraj.html">view pdf</a> */}
       <Offer  alloffer={Alloffer} allchat={Allchat}/>
     </div>
   )

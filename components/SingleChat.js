@@ -17,7 +17,7 @@ import  secureLocalStorage  from  "react-secure-storage";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-const ENDPOINT = "https://srijan-mesuraj2.vercel.app/"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = "http://128.199.17.123/"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -46,7 +46,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const { selectedChat, setSelectedChat, user, notification, setNotification } =
+  const { selectedChat, setSelectedChat, user,setUser, notification, setNotification } =
     ChatState();
 
   const fetchMessages = async () => {
@@ -62,7 +62,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `http://localhost:3001/api/message/allMessage/${selectedChat._id}`,
+        `http://128.199.17.123/api/message/allMessage/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -83,6 +83,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 
   useEffect(() => {
+    setUser(JSON.parse(secureLocalStorage.getItem('user')))
     socket = io(ENDPOINT);
     socket.emit("setup", secureLocalStorage.getItem('id'));
     socket.on("connected", () => setSocketConnected(true));
@@ -103,8 +104,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
         setNewMessage("");
-        console.log(selectedChat._id)
-        const res =await fetch(`http://localhost:3001/api/message`, {
+        // console.log(selectedChat._id)
+        const res =await fetch(`http://128.199.17.123/api/message`, {
           method: 'POST', // or 'PUT'
           headers: {
             'Content-Type': 'application/json',
@@ -128,8 +129,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-  
-
   useEffect(() => {
     fetchMessages();
 
@@ -138,8 +137,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
 
   useEffect(() => {
+    // console.log(user)
     socket.on("message recieved", (newMessageRecieved) => {
-      // console.log(newMessageRecieved)
+      console.log(newMessageRecieved)
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id

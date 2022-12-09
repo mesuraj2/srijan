@@ -23,7 +23,7 @@ export default function About() {
         });
     }
     else{
-      const res =await fetch('http://localhost:3001/api/auth', {
+      const res =await fetch('http://128.199.17.123/api/auth', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',

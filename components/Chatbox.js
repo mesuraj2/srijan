@@ -8,7 +8,7 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
 
   return (
     <Box
-      d={{ base: selectedChat ? "flex" : "none", md: "flex" }}
+      className={selectedChat? "selecon":"selecof"}
       alignItems="center"
       flexDir="column"
       p={3}

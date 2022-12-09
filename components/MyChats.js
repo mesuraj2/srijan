@@ -8,27 +8,29 @@ import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from "react-secure-storage";
 import Router from "next/router";
+import { ClassNames } from "@emotion/react";
 
-export default function MyChats ({ fetchAgain }){
+export default function MyChats({ fetchAgain }) {
   const [loggedUser, setLoggedUser] = useState([]);
 
-  const { selectedChat, setSelectedChat, user, chats, setChats,Session } = ChatState();
+  const { selectedChat, setSelectedChat, user, chats, setChats, Session } =
+    ChatState();
 
   const toast = useToast();
 
   const fetchChats = async () => {
     // console.log(user._id);
     try {
-      const res =await fetch("http://localhost:3001/api/chat/fetchChat", {
-    method: 'GET', // or 'PUT'
-    headers: {
-      'auth-token':secureLocalStorage.getItem('token')
-    },
-  })
-  let data=await res.json()
-  // console.log(data)
+      const res = await fetch("http://128.199.17.123/api/chat/fetchChat", {
+        method: "GET", // or 'PUT'
+        headers: {
+          "auth-token": secureLocalStorage.getItem("token"),
+        },
+      });
+      let data = await res.json();
+      // console.log(data)
       setChats(data);
     } catch (error) {
       toast({
@@ -43,15 +45,15 @@ export default function MyChats ({ fetchAgain }){
   };
 
   useEffect(() => {
-    setLoggedUser(JSON.parse(secureLocalStorage.getItem('user')));
-    if(secureLocalStorage.getItem('token')){
+    setLoggedUser(JSON.parse(secureLocalStorage.getItem("user")));
+    if (secureLocalStorage.getItem("token")) {
       fetchChats();
     }
   }, [fetchAgain]);
-
   return (
     <Box
-      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      // d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      className={selectedChat? "selecof":"selecon"}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -92,33 +94,34 @@ export default function MyChats ({ fetchAgain }){
         overflowY="scroll"
       >
         {chats ? (
-          <Stack >
-            {chats && chats.map((chat) => (
-              <Box
-                onClick={() => setSelectedChat(chat)}
-                cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
-                px={3}
-                py={2}
-                borderRadius="lg"
-                key={chat._id}
-              >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+          <Stack>
+            {chats &&
+              chats.map((chat) => (
+                <Box
+                  onClick={() => setSelectedChat(chat)}
+                  cursor="pointer"
+                  bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                  color={selectedChat === chat ? "white" : "black"}
+                  px={3}
+                  py={2}
+                  borderRadius="lg"
+                  key={chat._id}
+                >
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
                   </Text>
-                )}
-              </Box>
-            ))}
+                  {chat.latestMessage && (
+                    <Text fontSize="xs">
+                      <b>{chat.latestMessage.sender.name} : </b>
+                      {chat.latestMessage.content.length > 50
+                        ? chat.latestMessage.content.substring(0, 51) + "..."
+                        : chat.latestMessage.content}
+                    </Text>
+                  )}
+                </Box>
+              ))}
           </Stack>
         ) : (
           <ChatLoading />
@@ -126,6 +129,4 @@ export default function MyChats ({ fetchAgain }){
       </Box>
     </Box>
   );
-};
-
-
+}

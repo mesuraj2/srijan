@@ -10,16 +10,16 @@ import ChatProvider from "../Context/ChatProvider";
 function MyApp({ Component, pageProps }) {
   
   return  (<>
-  <ChatProvider >
   <ChakraProvider>
+  <ChatProvider >
 <Head>
    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </Head>
 <Navbar />
 <Component {...pageProps} />
 <Footer/>
-</ChakraProvider>
 </ChatProvider>
+</ChakraProvider>
   </>
   )
 }
