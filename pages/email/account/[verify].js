@@ -24,7 +24,7 @@ export default function Verify() {
         setverify(false)
         setlogin(true)
         toast({
-          title: "Session expired",
+          title: "Session expired it was only available for 3 hours",
           status: "warning",
           duration: 5000,
           isClosable: true,
