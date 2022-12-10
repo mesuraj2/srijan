@@ -14,10 +14,10 @@ import animationData from "../animations/typing.json";
 import  secureLocalStorage  from  "react-secure-storage";
 
 
-import io from "socket.io-client";
+import io from 'Socket.IO-client'
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-const ENDPOINT = "http://localhost:3000/api/socket"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+// let socket2 // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -84,14 +84,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     setUser(JSON.parse(secureLocalStorage.getItem('user')))
-    socket = io(ENDPOINT);
+    socketInitializer();
+  }, []);
+
+  const socketInitializer = async () => {
+    await fetch('/api/socket');
+    socket = io();
     socket.emit("setup", secureLocalStorage.getItem('id'));
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-
-    // eslint-disable-next-line
-  }, []);
+  }
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -138,8 +141,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     // console.log(user)
+    socketInitializer2()
+  });
+
+  const socketInitializer2 = async () => {
+    await fetch('/api/socket');
     socket.on("message recieved", (newMessageRecieved) => {
-      console.log(newMessageRecieved)
+      // console.log(newMessageRecieved)
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -152,7 +160,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setMessages([...messages, newMessageRecieved]);
       }
     });
-  });
+  }
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);

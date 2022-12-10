@@ -32,7 +32,7 @@ const handler= async (req,res)=>{
         to:req.body.email,
         subject:'verify your gmail',
         html:`<h2> verify your gmail</h2>
-        <a href="http://localhost:3000/${req.body.email}"> verify accound ${req.body.name}</a>
+        <a href="https://poolandsave-vegex.ondigitalocean.app/email/account/${req.body.email}"> verify accound ${req.body.name}</a>
         `
     }
 
