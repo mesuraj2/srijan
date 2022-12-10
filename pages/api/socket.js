@@ -1,5 +1,5 @@
-import { Server } from 'Socket.IO'
-console.log("ithksdf")
+import { Server } from 'socket.io'
+// console.log("ithksdf")
 const SocketHandler = (req, res) => {
   if (res.socket.server.io) {
     console.log('Socket is already running')

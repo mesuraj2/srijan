@@ -14,12 +14,12 @@ import animationData from "../animations/typing.json";
 import  secureLocalStorage  from  "react-secure-storage";
 
 
-import io from 'Socket.IO-client'
+import io from 'socket.io-client'
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 // let socket2 // "https://talk-a-tive.herokuapp.com"; -> After deployment
-var socket, selectedChatCompare;
 
+let socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -161,7 +161,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     });
   }
-
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
