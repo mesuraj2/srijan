@@ -17,7 +17,7 @@ import  secureLocalStorage  from  "react-secure-storage";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-const ENDPOINT = "http://128.199.17.123/"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = "http://localhost:3000/api/socket"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -62,7 +62,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `http://128.199.17.123/api/message/allMessage/${selectedChat._id}`,
+        `/api/message/allMessage/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -105,7 +105,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         // console.log(selectedChat._id)
-        const res =await fetch(`http://128.199.17.123/api/message`, {
+        const res =await fetch(`/api/message`, {
           method: 'POST', // or 'PUT'
           headers: {
             'Content-Type': 'application/json',

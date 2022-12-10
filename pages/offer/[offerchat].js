@@ -32,7 +32,7 @@ export default function Offerchat({Offerdetail}) {
     if(!secureLocalStorage.getItem('token')){
       Router.push('/Login')
     }else{
-    const res =await fetch(`http://128.199.17.123/api/chat/groupaddOffer`, {
+    const res =await fetch(`/api/chat/groupaddOffer`, {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ Router.push('/chat')
       },
     };
     const { data } = await axios.post(
-      `http://128.199.17.123/api/chat/offerchat`,
+      `/api/chat/offerchat`,
       {
         chatName: chatname,
         offerid:router.query.offerchat,
@@ -134,7 +134,7 @@ Router.push('/chat')
 }
 
 export async function getServerSideProps(context) {
-  const res =await fetch(`http://128.199.17.123/api/offer/offerdetail`, {
+  const res =await fetch(`http://localhost:3000/api/offer/offerdetail`, {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',

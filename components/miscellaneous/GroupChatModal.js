@@ -54,7 +54,7 @@ const GroupChatModal = ({ children }) => {
     }
     try {
       setLoading(true);
-      const res =await fetch(`http://128.199.17.123/api/auth/searchUser?search=${search}`, {
+      const res =await fetch(`/api/auth/searchUser?search=${search}`, {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        `http://128.199.17.123/api/chat/group`,
+        `/api/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),

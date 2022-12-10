@@ -23,7 +23,7 @@ export default function MyChats({ fetchAgain }) {
   const fetchChats = async () => {
     // console.log(user._id);
     try {
-      const res = await fetch("http://128.199.17.123/api/chat/fetchChat", {
+      const res = await fetch("/api/chat/fetchChat", {
         method: "GET", // or 'PUT'
         headers: {
           "auth-token": secureLocalStorage.getItem("token"),

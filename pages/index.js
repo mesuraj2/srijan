@@ -21,7 +21,7 @@ export default function Index() {
       let longitude=position.coords.longitude
       // console.log(latitude,longitude)
     })
-      const res =await fetch(`http://128.199.17.123/api/offer/offernearyou`, {
+      const res =await fetch(`/api/offer/offernearyou`, {
     method: 'GET',
   })
   let Alloffer= await res.json()
@@ -34,7 +34,7 @@ export default function Index() {
       let longitude=position.coords.longitude
       // console.log(latitude,longitude)
     })
-      const res =await fetch(`http://128.199.17.123/api/offer/topChatnearYou`, {
+      const res =await fetch(`/api/offer/topChatnearYou`, {
     method: 'GET',
   })
   let allchat= await res.json()

@@ -73,7 +73,7 @@ function SideDrawer() {
 
     try {
       setLoading(true);
-        const res =await fetch(`http://128.199.17.123/api/auth/searchUser?search=${search}`, {
+        const res =await fetch(`/api/auth/searchUser?search=${search}`, {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ function SideDrawer() {
 
     try {
       setLoadingChat(true);
-      const res =await fetch(`http://128.199.17.123/api/chat`, {
+      const res =await fetch(`/api/chat`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
