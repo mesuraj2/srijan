@@ -24,7 +24,7 @@ const SocketHandler = (req, res) => {
       socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
     
       socket.on("new message", (newMessageRecieved) => {
-        console.log(newMessageRecieved)
+        // console.log(newMessageRecieved)
         var chat = newMessageRecieved.chat;
     
         if (!chat.users) return console.log("chat.users not defined");
