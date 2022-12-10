@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Router from 'next/router'
 import Link from 'next/link'
 import {useToast} from "@chakra-ui/react";
-function verify() {
+export default function Verify() {
   const toast = useToast();
   const router = useRouter()
   const [login, setlogin] = useState(false)
@@ -64,4 +64,4 @@ function verify() {
     </div>
   )
 }
-export default verify
+
