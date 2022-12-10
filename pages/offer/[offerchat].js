@@ -134,7 +134,7 @@ Router.push('/chat')
 }
 
 export async function getServerSideProps(context) {
-  const res =await fetch(`http://localhost:3000/api/offer/offerdetail`, {
+  const res =await fetch(`https://poolandsave-vegex.ondigitalocean.app/api/offer/offerdetail`, {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',
