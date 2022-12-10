@@ -5,7 +5,7 @@ const connectdb =handler => async (req,res)=>{
         console.log("contected1")
         return handler(req,res)
     }
-    await mongoose.connect("mongodb://localhost:27017/srijankumar")
+    await mongoose.connect("mongodb+srv://znsuraj7:khukhundu@cluster0.idig2fu.mongodb.net/srijan?retryWrites=true&w=majority")
     console.log("contected2")
     return handler(req,res);
     // try {
