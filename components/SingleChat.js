@@ -18,8 +18,8 @@ import io from 'socket.io-client'
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 // let socket2 // "https://talk-a-tive.herokuapp.com"; -> After deployment
-
-let socket, selectedChatCompare;
+// const ENDPOINT = "/api/socket"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -82,19 +82,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
 
+
+  
   useEffect(() => {
     setUser(JSON.parse(secureLocalStorage.getItem('user')))
-    socketInitializer();
-  }, []);
-
-  const socketInitializer = async () => {
-    await fetch('/api/socket');
-    socket = io();
-    socket.emit("setup", secureLocalStorage.getItem('id'));
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-  }
+    fetch('/api/socket').finally(() => {
+      const socket = io()
+      socket.emit("setup", secureLocalStorage.getItem('id'));
+      socket.on("connected", () => setSocketConnected(true));
+      socket.on("typing", () => setIsTyping(true));
+      socket.on("stop typing", () => setIsTyping(false));
+    })
+  }, []) 
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -140,27 +139,43 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
 
   useEffect(() => {
-    // console.log(user)
-    socketInitializer2()
-  });
-
-  const socketInitializer2 = async () => {
-    await fetch('/api/socket');
-    socket.on("message recieved", (newMessageRecieved) => {
-      // console.log(newMessageRecieved)
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        if (!notification.includes(newMessageRecieved)) {
-          setNotification([newMessageRecieved, ...notification]);
-          setFetchAgain(!fetchAgain);
+    fetch('/api/socket').finally(() => {
+      socket=io()
+      socket.emit("setup", secureLocalStorage.getItem('id'));
+      socket.on("message recieved", (newMessageRecieved) => {
+        // console.log(newMessageRecieved)
+        if (
+          !selectedChatCompare || // if chat is not selected or doesn't match current chat
+          selectedChatCompare._id !== newMessageRecieved.chat._id
+        ) {
+          if (!notification.includes(newMessageRecieved)) {
+            setNotification([newMessageRecieved, ...notification]);
+            setFetchAgain(!fetchAgain);
+          }
+        } else {
+          setMessages([...messages, newMessageRecieved]);
         }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-      }
-    });
-  }
+      });
+    })
+  }) 
+
+  // const socketInitializer2 = async () => {
+  //   // await fetch('/api/socket');
+  //   socket.on("message recieved", (newMessageRecieved) => {
+  //     // console.log(newMessageRecieved)
+  //     if (
+  //       !selectedChatCompare || // if chat is not selected or doesn't match current chat
+  //       selectedChatCompare._id !== newMessageRecieved.chat._id
+  //     ) {
+  //       if (!notification.includes(newMessageRecieved)) {
+  //         setNotification([newMessageRecieved, ...notification]);
+  //         setFetchAgain(!fetchAgain);
+  //       }
+  //     } else {
+  //       setMessages([...messages, newMessageRecieved]);
+  //     }
+  //   });
+  // }
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
