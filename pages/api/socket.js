@@ -63,7 +63,7 @@ const ioHandler = (req, res) => {
     console.log('*First use, starting socket.io')
 
     const io = new Server(res.socket.server)
-
+    io.set('origins', '*:*');
     io.on("connection", (socket) => {
       // console.log("Connected to socket.io");
       socket.on("setup", (userData) => {
